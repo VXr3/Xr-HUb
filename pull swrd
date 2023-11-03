@@ -1,0 +1,233 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Player = game.Players.LocalPlayer
+local Character = Player.Character
+local HumanoidRootPart = Character.HumanoidRootPart
+
+--////////////////////////////////////////////////////
+local function Notify(Title, Content, Image, Duration)
+	OrionLib:MakeNotification({
+		Name = Title,
+		Content = Content,
+		Image = "rbxassetid://" .. Image,
+		Time = Duration
+	})
+	--[[
+    Title = <string> - The title of the notification.
+    Content = <string> - The content of the notification.
+    Image = <string> - The icon of the notification.
+    Time = <number> - The duration of the notfication.
+    ]]
+end
+--////////////////////////////////////////////////////
+
+local Window = OrionLib:MakeWindow({
+	Name = "Pull a Sword", 
+	HidePremium = false,
+	SaveConfig = true,
+	IntroEnabled = false,
+	ConfigFolder = "ExploitConfig"
+})
+
+
+local Tab = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
+local HalloweenEventFarm = false
+Tab:AddToggle({
+	Name = "Halloween Event Farm",
+	Default = false,
+	Callback = function(Value)
+		HalloweenEventFarm = Value
+	end    
+})
+
+
+local HalloweenBossFarm = false
+Tab:AddToggle({
+	Name = "Halloween Boss Farm",
+	Default = false,
+	Callback = function(Value)
+		HalloweenBossFarm = Value
+	end    
+})
+
+
+local AutoClicker = false
+Tab:AddToggle({
+	Name = "[OP] AutoClicker",
+	Default = false,
+	Callback = function(Value)
+		AutoClicker = Value
+	end    
+})
+
+
+local Tab = Window:MakeTab({
+	Name = "Player",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
+local Section = Tab:AddSection({
+	Name = "Humanoid"
+})
+
+
+Tab:AddSlider({
+	Name = "Walkspeed",
+	Min = 8,
+	Max = 100,
+	Default = 16,
+	Color = Color3.fromRGB(0, 100, 200),
+	Increment = 1,
+	ValueName = "Speed",
+	Callback = function(Value)
+		Character.Humanoid.WalkSpeed = Value
+	end    
+})
+
+
+Tab:AddSlider({
+	Name = "JumpPower",
+	Min = 7.2,
+	Max = 100,
+	Default = 7.2,
+	Color = Color3.fromRGB(0, 100, 200),
+	Increment = 1,
+	ValueName = "Power",
+	Callback = function(Value)
+		Character.Humanoid.JumpHeight = Value
+	end    
+})
+
+
+local infJump
+Tab:AddToggle({
+	Name = "Infinite Jump",
+	Default = false,
+	Callback = function(Value)
+		if infJump then infJump:Disconnect() end
+		infJump = game:GetService("UserInputService").JumpRequest:Connect(function()
+			if Value == true then
+				game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
+			end
+		end)
+	end    
+})
+
+
+Tab:AddToggle({
+	Name = "Noclip",
+	Default = false,
+	Callback = function(Value)
+		if Value == true then
+			for i,v in pairs(Character:GetChildren()) do
+				if v:isA("BasePart") then
+					v.CanCollide = false
+				end
+			end
+		elseif Value == false then
+			for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+				if v:isA("BasePart") then
+					if not (v.Name == "Right Arm") then
+						if not (v.Name == "RightArm") then
+							if not (v.Name == "Left Arm") then
+								if not (v.Name == "LeftArm") then
+									if not (v.Name == "Right Leg") then
+										if not (v.Name == "RightLeg") then
+											if not (v.Name == "Left Leg") then
+												if not (v.Name == "LeftLeg") then
+													v.CanCollide = true
+												end
+											end
+										end
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end    
+})
+
+
+OrionLib:Init()
+local NPC = 4
+while true do
+	if HalloweenEventFarm == true then
+		local args = {
+			[1] = NPC
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("WinMobEventHALOOWEEN"):FireServer(unpack(args))
+
+		NPC-=1
+
+		local args = {
+			[1] = NPC
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("WinMobEventHALOOWEEN"):FireServer(unpack(args))
+
+		NPC-=1
+
+		local args = {
+			[1] = NPC
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("WinMobEventHALOOWEEN"):FireServer(unpack(args))
+
+		NPC-=1
+
+		local args = {
+			[1] = NPC
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("WinMobEventHALOOWEEN"):FireServer(unpack(args))
+
+		NPC=4
+
+		local args = {
+			[1] = "Click",
+			[2] = true
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("ClickEvent"):FireServer(unpack(args))
+
+
+		for i,v in pairs(workspace.EventMobs:GetChildren()) do
+
+			v.HumanoidRootPart.CFrame = HumanoidRootPart.CFrame * CFrame.new(0,0,-5)
+
+		end
+	end
+	
+	if HalloweenBossFarm == true then
+		local P = workspace.Bosses["Boss-1"].Table.Attachment.ProximityPrompt
+		P.HoldDuration = 0
+		P.Enabled = true
+		fireproximityprompt(P)
+	else
+		local P = workspace.Bosses["Boss-1"].Table.Attachment.ProximityPrompt
+		P.HoldDuration = 1
+	end
+	
+	if AutoClicker == true then
+		local args = {
+			[1] = "Click",
+			[2] = true
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("ClickEvent"):FireServer(unpack(args))
+	end
+	
+	task.wait()
+end
